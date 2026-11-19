@@ -71,7 +71,7 @@ func Load(dir string) (*File, error) {
 
 // Save writes the config to dir/config.yaml.
 func (f *File) Save(dir string) error {
-	if err := os.MkdirAll(dir, 0o700); err != nil {
+	if err := os.MkdirAll(dir, 0o777); err != nil {
 		return fmt.Errorf("config: mkdir: %w", err)
 	}
 	data, err := yaml.Marshal(f)
@@ -80,7 +80,7 @@ func (f *File) Save(dir string) error {
 	}
 	path := filepath.Join(dir, "config.yaml")
 	tmp := path + ".tmp"
-	if err := os.WriteFile(tmp, data, 0o600); err != nil {
+	if err := os.WriteFile(tmp, data, 0o666); err != nil {
 		return fmt.Errorf("config: write: %w", err)
 	}
 	return os.Rename(tmp, path)
